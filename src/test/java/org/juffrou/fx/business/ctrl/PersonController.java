@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
+import org.juffrou.fx.business.dom.Person;
+import org.juffrou.fx.business.pm.PersonPM;
+
 public class PersonController implements Initializable {
 	
 	@FXML
@@ -31,8 +34,22 @@ public class PersonController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Bind this controller with the Person Presentation Model
-		
+		bindPresentationModel();
+	}
+	
+	private void unbindPresentationModel() {
+		//TODO must unbind before changing the domain
 	}
 
+	private void bindPresentationModel() {
+		Person personDom = new Person();
+		personDom.setName("Carlos");
+		
+		PersonPM personFx = new PersonPM(personDom);
+		
+		name.textProperty().bindBidirectional(personFx.nameProperty());
+		email.textProperty().bindBidirectional(personFx.emailProperty());
+		dateOfBirth.valueProperty().bindBidirectional(personFx.dateOfBirthProperty());
+
+	}
 }
