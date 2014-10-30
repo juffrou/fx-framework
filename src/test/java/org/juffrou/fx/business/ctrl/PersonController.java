@@ -1,8 +1,10 @@
 package org.juffrou.fx.business.ctrl;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
@@ -10,8 +12,11 @@ import javafx.scene.control.TextField;
 
 import org.juffrou.fx.business.dom.Person;
 import org.juffrou.fx.business.pm.PersonPM;
+import org.juffrou.fx.presentationmodel.BasePresentationModel;
 
 public class PersonController implements Initializable {
+	
+	BasePresentationModel<Person> basePresentationModel;
 	
 	@FXML
 	private TextField name;
@@ -25,6 +30,9 @@ public class PersonController implements Initializable {
 	@FXML
 	private void save() {
 		System.out.println("save");
+		Person newPresentationModelDomain = basePresentationModel.getNewPresentationModelDomain();
+		System.out.println(newPresentationModelDomain.getName());
+
 	}
 	
 	@FXML
@@ -42,6 +50,21 @@ public class PersonController implements Initializable {
 	}
 
 	private void bindPresentationModel() {
+
+		Person personDom = new Person();
+		personDom.setName("Carlos");
+		
+		basePresentationModel = new BasePresentationModel<Person>(Person.class);
+		
+		basePresentationModel.setNewPresentationModelDomain(personDom);
+		
+		name.textProperty().bindBidirectional((Property<String>) basePresentationModel.getProperty("name"));
+		email.textProperty().bindBidirectional((Property<String>) basePresentationModel.getProperty("email"));
+		dateOfBirth.valueProperty().bindBidirectional((Property<LocalDate>) basePresentationModel.getProperty("dateOfBirth"));
+
+	}
+	
+	private void old_bindPresentationModel() {
 		Person personDom = new Person();
 		personDom.setName("Carlos");
 		
