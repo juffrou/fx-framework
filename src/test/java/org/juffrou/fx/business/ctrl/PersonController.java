@@ -56,12 +56,12 @@ public class PersonController implements Initializable {
 		
 		basePresentationModel = new BasePresentationModel<Person>(Person.class);
 		
+		basePresentationModel.bindReadWrite(name.textProperty(), "name");
+		basePresentationModel.bindReadWrite(email.textProperty(), "email");
+		basePresentationModel.bindReadWrite(dateOfBirth.valueProperty(), "dateOfBirth");
+		
 		basePresentationModel.setNewPresentationModelDomain(personDom);
 		
-		name.textProperty().bindBidirectional((Property<String>) basePresentationModel.getProperty("name"));
-		email.textProperty().bindBidirectional((Property<String>) basePresentationModel.getProperty("email"));
-		dateOfBirth.valueProperty().bindBidirectional((Property<LocalDate>) basePresentationModel.getProperty("dateOfBirth"));
-
 	}
 	
 	private void old_bindPresentationModel() {

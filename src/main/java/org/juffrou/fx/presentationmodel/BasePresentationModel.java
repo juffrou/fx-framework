@@ -3,6 +3,7 @@ package org.juffrou.fx.presentationmodel;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 import net.sf.juffrou.reflect.BeanWrapperContext;
 import net.sf.juffrou.reflect.JuffrouBeanWrapper;
@@ -21,7 +22,7 @@ public class BasePresentationModel<T> {
 		beanWrapper = new JuffrouBeanWrapper(beanWrapperContext);
 	}
 	
-	public ObservableValue<?> getProperty(String propertyName) {
+	private ObservableValue<?> getProperty(String propertyName) {
 		
 		ObservableValue<?> property = properties.get(propertyName);
 		if(property == null) {
@@ -32,6 +33,15 @@ public class BasePresentationModel<T> {
 		return property;
 	}
 	
+	public <PT> void bindReadonly(Property<PT> property, String propertyName) {
+		property.bind((ObservableValue<? extends PT>) getProperty(propertyName));
+	}
+
+	public <PT> void bindReadWrite(Property<PT> property, String propertyName) {
+		property.bindBidirectional((Property<PT>) getProperty(propertyName));
+	}
+
+
 	public void setNewPresentationModelDomain(T backingDomain) {
 		Class<?> beanClass = beanWrapper.getBeanClass();
 		if( ! beanClass.isAssignableFrom(backingDomain.getClass()) )
