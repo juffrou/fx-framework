@@ -49,7 +49,11 @@ public class BasePresentationModel<T> {
 		
 		JuffrouBeanWrapper backingWrapper = new JuffrouBeanWrapper(beanWrapperContext, backingDomain);
 		for (String propertyName : beanWrapper.getPropertyNames()) {
-			beanWrapper.setValue(propertyName, backingWrapper.getValue(propertyName));
+			ObservableValue<?> property = properties.get(propertyName);
+			if(property != null && property instanceof Property)
+				((Property)property).setValue(backingWrapper.getValue(propertyName));
+			else
+				beanWrapper.setValue(propertyName, backingWrapper.getValue(propertyName));
 		}
 	}
 	
