@@ -9,6 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.juffrou.fx.business.dom.Person;
+import org.juffrou.fx.business.pm.PersonPM;
+import org.juffrou.fx.controller.BaseController;
+
 public class MainController {
 	
 	@FXML
@@ -17,7 +21,11 @@ public class MainController {
 		
 		Stage stage = new Stage();
 		URL url = getClass().getResource("/org/juffrou/fx/business/Person.fxml");
-		Parent parent = FXMLLoader.load(url);
+		FXMLLoader loader = new FXMLLoader(url);
+		
+		Parent parent = loader.load();
+		BaseController<Person> controller = loader.getController();
+		controller.bind(new PersonPM());
 		
 		Scene scene = new Scene( parent);
 		stage.setScene(scene);

@@ -1,22 +1,16 @@
 package org.juffrou.fx.business.ctrl;
 
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
-import javafx.beans.property.Property;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import org.juffrou.fx.business.dom.Person;
-import org.juffrou.fx.business.pm.PersonPM;
+import org.juffrou.fx.controller.BaseController;
 import org.juffrou.fx.presentationmodel.BasePresentationModel;
 
-public class PersonController implements Initializable {
-	
-	BasePresentationModel<Person> basePresentationModel;
+public class PersonController extends BaseController<Person> {
 	
 	@FXML
 	private TextField name;
@@ -30,49 +24,30 @@ public class PersonController implements Initializable {
 	@FXML
 	private void save() {
 		System.out.println("save");
-		Person newPresentationModelDomain = basePresentationModel.getNewPresentationModelDomain();
-		System.out.println(newPresentationModelDomain.getName());
-
+		Person person = getPresentationModel().getModelDomainInstance();
+		System.out.println("name: " + person.getName());
+		System.out.println("email: " + person.getEmail());
+		System.out.println("date of birth: " + person.getDateOfBirth());
 	}
 	
 	@FXML
 	private void cancel() {
 		System.out.println("cancel");
+		
+		Person person = new Person();
+		person.setName("Carlos");
+		person.setEmail("cemartins@netcabo.pt");
+		person.setDateOfBirth(LocalDate.of(1967, 10, 1));
+		getPresentationModel().setModelDomainInstance(person);
+
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		bindPresentationModel();
+	
+	public void bindPresentationModel(BasePresentationModel<Person> presentationModel) {
+
+		presentationModel.bindReadWrite(name.textProperty(), "name");
+		presentationModel.bindReadonly(email.textProperty(), "email");
+		presentationModel.bindReadWrite(dateOfBirth.valueProperty(), "dateOfBirth");
 	}
 	
-	private void unbindPresentationModel() {
-		//TODO must unbind before changing the domain
-	}
-
-	private void bindPresentationModel() {
-
-		Person personDom = new Person();
-		personDom.setName("Carlos");
-		
-		basePresentationModel = new BasePresentationModel<Person>(Person.class);
-		
-		basePresentationModel.bindReadWrite(name.textProperty(), "name");
-		basePresentationModel.bindReadWrite(email.textProperty(), "email");
-		basePresentationModel.bindReadWrite(dateOfBirth.valueProperty(), "dateOfBirth");
-		
-		basePresentationModel.setNewPresentationModelDomain(personDom);
-		
-	}
-	
-	private void old_bindPresentationModel() {
-		Person personDom = new Person();
-		personDom.setName("Carlos");
-		
-		PersonPM personFx = new PersonPM(personDom);
-		
-		name.textProperty().bindBidirectional(personFx.nameProperty());
-		email.textProperty().bindBidirectional(personFx.emailProperty());
-		dateOfBirth.valueProperty().bindBidirectional(personFx.dateOfBirthProperty());
-
-	}
 }
