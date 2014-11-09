@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import org.juffrou.fx.business.dom.Person;
 import org.juffrou.fx.business.pm.PersonPM;
-import org.juffrou.fx.controller.BaseController;
+import org.juffrou.fx.controller.BeanController;
 
 public class MainController {
 	
@@ -24,7 +24,7 @@ public class MainController {
 		FXMLLoader loader = new FXMLLoader(url);
 		
 		Parent parent = loader.load();
-		BaseController<Person> controller = loader.getController();
+		BeanController<Person> controller = loader.getController();
 		controller.bind(new PersonPM());
 		
 		Scene scene = new Scene( parent);

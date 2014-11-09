@@ -7,10 +7,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import org.juffrou.fx.business.dom.Person;
-import org.juffrou.fx.controller.BaseController;
-import org.juffrou.fx.presentationmodel.BasePresentationModel;
+import org.juffrou.fx.controller.BeanController;
+import org.juffrou.fx.presentationmodel.ControllerModel;
 
-public class PersonController extends BaseController<Person> {
+public class PersonController extends BeanController<Person> {
 	
 	@FXML
 	private TextField name;
@@ -24,7 +24,7 @@ public class PersonController extends BaseController<Person> {
 	@FXML
 	private void save() {
 		System.out.println("save");
-		Person person = getPresentationModel().getModelDomainInstance();
+		Person person = getControllerModel().getModelSource();
 		System.out.println("name: " + person.getName());
 		System.out.println("email: " + person.getEmail());
 		System.out.println("date of birth: " + person.getDateOfBirth());
@@ -38,12 +38,12 @@ public class PersonController extends BaseController<Person> {
 		person.setName("Carlos");
 		person.setEmail("cemartins@netcabo.pt");
 		person.setDateOfBirth(LocalDate.of(1967, 10, 1));
-		getPresentationModel().setModelDomainInstance(person);
+		getControllerModel().setModelSource(person);
 
 	}
 
 	
-	public void bindPresentationModel(BasePresentationModel<Person> presentationModel) {
+	public void bindControllerModel(ControllerModel<Person> presentationModel) {
 
 		presentationModel.bindReadWrite(name.textProperty(), "name");
 		presentationModel.bindReadonly(email.textProperty(), "email");
