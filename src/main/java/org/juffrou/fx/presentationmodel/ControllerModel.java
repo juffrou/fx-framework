@@ -86,4 +86,8 @@ public class ControllerModel<T> {
 		return (T) modelSourceBeanWrapper.getBean(false);
 	}
 	
+	public Class<T> getModelSourceClass() {
+		return (Class<T>) beanWrapperContext.getBeanClass();
+	}
+	
 }

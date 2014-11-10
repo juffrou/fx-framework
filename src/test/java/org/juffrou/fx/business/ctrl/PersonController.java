@@ -20,7 +20,11 @@ public class PersonController extends BeanController<Person> {
 	
 	@FXML
 	private DatePicker dateOfBirth;
-	
+
+	public PersonController() {
+		super(Person.class);
+	}
+
 	@FXML
 	private void save() {
 		System.out.println("save");

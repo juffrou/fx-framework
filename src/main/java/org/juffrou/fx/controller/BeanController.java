@@ -12,19 +12,23 @@ import org.juffrou.fx.presentationmodel.ControllerModel;
  */
 public abstract class BeanController<T> {
 
-	ControllerModel<T> controllerModel;
+	private final ControllerModel<T> controllerModel;
+	
+	protected BeanController(Class<T> beanClass) {
+		controllerModel = new ControllerModel<>(beanClass);
+	}
 
 	protected void unbind() {
 	}
 	
-	public void bind(ControllerModel<T> controllerModel) {
-		this.controllerModel = controllerModel;
+	public void bind() {
 		bindControllerModel(controllerModel);
 	}
 
 	protected abstract void bindControllerModel(ControllerModel<T> presentationModel);
 
-	protected ControllerModel<T> getControllerModel() {
+	public ControllerModel<T> getControllerModel() {
 		return controllerModel;
 	}
+	
 }
