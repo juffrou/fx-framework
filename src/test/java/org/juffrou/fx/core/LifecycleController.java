@@ -1,10 +1,15 @@
 package org.juffrou.fx.core;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 
 public class LifecycleController {
 	
 	private LifecyclePresentationManager presentationManager;
+	
+	@FXML
+	private AnchorPane nodeContainer;
 	
 	@FXML
 	private void save() {
@@ -26,5 +31,7 @@ public class LifecycleController {
 		this.presentationManager = presentationManager;
 	}
 
-	
+	public void setNode(Node node) {
+		nodeContainer.getChildren().add(node);
+	}
 }

@@ -6,10 +6,10 @@ import java.time.LocalDate;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
 
 import org.juffrou.fx.business.dom.Person;
 import org.juffrou.fx.controller.BeanController;
+import org.juffrou.fx.core.LifecycleController;
 import org.juffrou.fx.core.LifecyclePresentationManager;
 import org.juffrou.fx.error.NodeBuildingException;
 
@@ -27,7 +27,8 @@ public class PersonPM implements LifecyclePresentationManager {
 			//Load person 
 			URL url = getClass().getResource("/org/juffrou/fx/business/Person.fxml");
 			FXMLLoader loader = new FXMLLoader(url);
-			Parent parent = loader.load();
+			loader.load();
+			Parent parent = loader.getRoot();
 			personController = loader.getController();
 			personController.bind();
 			
@@ -35,10 +36,11 @@ public class PersonPM implements LifecyclePresentationManager {
 			url = getClass().getResource("/org/juffrou/fx/core/BeanLifecycle.fxml");
 			loader = new FXMLLoader(url);
 			Parent beanLifecycleNode = loader.load();
-			AnchorPane pane = (AnchorPane) beanLifecycleNode.lookup("#nodeContainer");
-			pane.getChildren().add(parent);
+			LifecycleController fifecycleController = (LifecycleController) loader.getController();
+			fifecycleController.setNode(parent);
+			fifecycleController.setPresentationManager(this);
 			
-			return parent;
+			return beanLifecycleNode;
 		} catch (IOException e) {
 			throw new NodeBuildingException("Cannot load Person.fxml", e);
 		}
