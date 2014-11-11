@@ -1,6 +1,9 @@
 package org.juffrou.fx.core;
 
+import java.net.URL;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
@@ -10,6 +13,12 @@ public class LifecycleController {
 	
 	@FXML
 	private AnchorPane nodeContainer;
+
+	public static FXMLLoader getLoader() {
+		URL url = LifecycleController.class.getResource("/org/juffrou/fx/core/BeanLifecycle.fxml");
+		FXMLLoader loader = new FXMLLoader(url);
+		return loader;
+	}
 	
 	@FXML
 	private void save() {

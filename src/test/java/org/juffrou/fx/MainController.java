@@ -1,7 +1,6 @@
 package org.juffrou.fx;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import org.juffrou.fx.business.pm.PersonPM;
+import org.juffrou.fx.core.LifecycleController;
 
 public class MainController {
 	
@@ -20,11 +20,16 @@ public class MainController {
 		Stage stage = new Stage();
 		
 		// load BeanLifecycle
-//		URL url = getClass().getResource("/org/juffrou/fx/core/BeanLifecycle.fxml");
-//		FXMLLoader loader = new FXMLLoader(url);
-//		Parent beanLifecycleNode = loader.load();
+		FXMLLoader loader = LifecycleController.getLoader();
+		Parent beanLifecycleNode = loader.load();
+		LifecycleController fifecycleController = (LifecycleController) loader.getController();
 		
-		Scene scene = new Scene( new PersonPM().getNode() );
+		PersonPM personPM = new PersonPM();
+
+		fifecycleController.setNode(personPM.getNode());
+		fifecycleController.setPresentationManager(personPM);
+		
+		Scene scene = new Scene( beanLifecycleNode );
 		stage.setScene(scene);
 		stage.show();
 

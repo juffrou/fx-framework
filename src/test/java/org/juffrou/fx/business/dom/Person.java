@@ -1,6 +1,8 @@
 package org.juffrou.fx.business.dom;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Person {
 	
@@ -8,6 +10,7 @@ public class Person {
 	private String name;
 	private String email;
 	private LocalDate dateOfBirth;
+	private Set<Contact> contacts;
 	
 	
 	public Integer getId() {
@@ -34,5 +37,21 @@ public class Person {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+	public Set<Contact> getContacts() {
+		return contacts;
+	}
+	public void setContacts(Set<Contact> contacts) {
+		this.contacts = contacts;
+	}
 
+	public void addContact(Contact contact) {
+		if(contacts == null)
+			contacts = new HashSet<>();
+		contact.setPerson(this);
+		contacts.add(contact);
+	}
+	
+	public void removeContact(Contact contact) {
+		contacts.remove(contact);
+	}
 }

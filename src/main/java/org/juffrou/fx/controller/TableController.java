@@ -3,7 +3,7 @@ package org.juffrou.fx.controller;
 import org.juffrou.fx.presentationmodel.ControllerModel;
 
 /**
- * Controller that supports a node for presenting a Java Bean.<p>
+ * Controller that supports a node for presenting a List or Set collection.<p>
  * Binds its controls to a ControllerModel
  * 
  * @author Carlos Martins
@@ -13,6 +13,10 @@ import org.juffrou.fx.presentationmodel.ControllerModel;
 public abstract class TableController<T> {
 
 	ControllerModel<T> controllerModel;
+	
+	protected TableController(Class<T> beanClass) {
+		controllerModel = new ControllerModel<>(beanClass);
+	}
 
 	protected void unbind() {
 	}
