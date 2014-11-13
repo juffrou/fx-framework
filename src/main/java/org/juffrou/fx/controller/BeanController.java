@@ -1,6 +1,6 @@
 package org.juffrou.fx.controller;
 
-import org.juffrou.fx.presentationmodel.ControllerModel;
+import org.juffrou.fx.controller.model.BeanControllerModel;
 
 /**
  * Controller that supports a node for presenting a Java Bean.<p>
@@ -12,10 +12,10 @@ import org.juffrou.fx.presentationmodel.ControllerModel;
  */
 public abstract class BeanController<T> {
 
-	private final ControllerModel<T> controllerModel;
+	private final BeanControllerModel<T> controllerModel;
 	
 	protected BeanController(Class<T> beanClass) {
-		controllerModel = new ControllerModel<>(beanClass);
+		controllerModel = new BeanControllerModel<>(beanClass);
 	}
 
 	protected void unbind() {
@@ -25,9 +25,9 @@ public abstract class BeanController<T> {
 		bindControllerModel(controllerModel);
 	}
 
-	protected abstract void bindControllerModel(ControllerModel<T> presentationModel);
+	protected abstract void bindControllerModel(BeanControllerModel<T> presentationModel);
 
-	public ControllerModel<T> getControllerModel() {
+	public BeanControllerModel<T> getControllerModel() {
 		return controllerModel;
 	}
 	

@@ -1,4 +1,4 @@
-package org.juffrou.fx.presentationmodel;
+package org.juffrou.fx.controller.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,14 +19,14 @@ import org.juffrou.fx.serials.FxSerialsUtil;
  * @author Carlos Martins
  * @param <T> java bean type supporting this controller 
  */
-public class ControllerModel<T> {
+public class BeanControllerModel<T> {
 
 	private final JuffrouBeanWrapper modelSourceBeanWrapper;
 	private final T fxSerialsProxy;
 	private final BeanWrapperContext beanWrapperContext;
 	private final Map<String, ReadOnlyJavaBeanProperty<?>> boundProperties;
 	
-	public ControllerModel(Class<T> backingDomainClass) {
+	public BeanControllerModel(Class<T> backingDomainClass) {
 		beanWrapperContext = BeanWrapperContext.create(backingDomainClass);
 		
 		modelSourceBeanWrapper = new JuffrouBeanWrapper(beanWrapperContext);

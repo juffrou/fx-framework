@@ -1,16 +1,15 @@
 package org.juffrou.fx.business.pm;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import org.juffrou.fx.business.ctrl.PersonController;
+import org.juffrou.fx.business.dom.Contact;
 import org.juffrou.fx.business.dom.Person;
 import org.juffrou.fx.controller.BeanController;
-import org.juffrou.fx.core.LifecycleController;
 import org.juffrou.fx.core.LifecyclePresentationManager;
 import org.juffrou.fx.error.NodeBuildingException;
 
@@ -53,6 +52,17 @@ public class PersonPM implements LifecyclePresentationManager {
 		person.setName("Carlos");
 		person.setEmail("cemartins@netcabo.pt");
 		person.setDateOfBirth(LocalDate.of(1967, 10, 1));
+		
+		Contact contact = new Contact();
+		contact.setDescription("phone");
+		contact.setValue("21 441 97 53");
+		person.addContact(contact);
+		
+		contact = new Contact();
+		contact.setDescription("mobile");
+		contact.setValue("916 173 239");
+		person.addContact(contact);
+		
 		personController.getControllerModel().setModelSource(person);
 
 	}

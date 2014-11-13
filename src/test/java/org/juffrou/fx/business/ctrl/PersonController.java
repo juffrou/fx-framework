@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 
 import org.juffrou.fx.business.dom.Person;
 import org.juffrou.fx.controller.BeanController;
-import org.juffrou.fx.presentationmodel.ControllerModel;
+import org.juffrou.fx.controller.model.BeanControllerModel;
 
 public class PersonController extends BeanController<Person> {
 	
@@ -34,7 +34,7 @@ public class PersonController extends BeanController<Person> {
 		super(Person.class);
 	}
 
-	public void bindControllerModel(ControllerModel<Person> presentationModel) {
+	public void bindControllerModel(BeanControllerModel<Person> presentationModel) {
 
 		presentationModel.bindReadWrite(name.textProperty(), "name");
 		presentationModel.bindReadonly(email.textProperty(), "email");

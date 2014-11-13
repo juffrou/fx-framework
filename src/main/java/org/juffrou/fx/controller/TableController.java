@@ -1,6 +1,6 @@
 package org.juffrou.fx.controller;
 
-import org.juffrou.fx.presentationmodel.ControllerModel;
+import org.juffrou.fx.controller.model.TableControllerModel;
 
 /**
  * Controller that supports a node for presenting a List or Set collection.<p>
@@ -12,23 +12,23 @@ import org.juffrou.fx.presentationmodel.ControllerModel;
  */
 public abstract class TableController<T> {
 
-	ControllerModel<T> controllerModel;
+	TableControllerModel<T> controllerModel;
 	
 	protected TableController(Class<T> beanClass) {
-		controllerModel = new ControllerModel<>(beanClass);
+		controllerModel = new TableControllerModel<>();
 	}
 
 	protected void unbind() {
 	}
 	
-	public void bind(ControllerModel<T> controllerModel) {
+	public void bind(TableControllerModel<T> controllerModel) {
 		this.controllerModel = controllerModel;
 		bindControllerModel(controllerModel);
 	}
 
-	protected abstract void bindControllerModel(ControllerModel<T> presentationModel);
+	protected abstract void bindControllerModel(TableControllerModel<T> presentationModel);
 
-	protected ControllerModel<T> getControllerModel() {
+	protected TableControllerModel<T> getControllerModel() {
 		return controllerModel;
 	}
 }
