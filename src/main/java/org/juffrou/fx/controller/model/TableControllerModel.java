@@ -2,13 +2,15 @@ package org.juffrou.fx.controller.model;
 
 import java.util.Collection;
 
-import org.juffrou.fx.serials.FxSerialsUtil;
-
 import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import org.juffrou.fx.serials.FxSerialsProxy;
+import org.juffrou.fx.serials.FxSerialsUtil;
 
 /**
  * Wraps a traditional java bean and creates JavaFX properties allowing a JavaFX controller to bind its controls with the properties of the bean.
@@ -36,10 +38,24 @@ public class TableControllerModel<T> {
 
 	public void setModelSource(Collection<T> backingCollection) {
 		
-		// convert the elements of the collection into JavaFX Beans
-		Collection<T> fxCollection = serialsUtil.getProxy(backingCollection);
 		observableArrayList.clear();
-		observableArrayList.addAll(fxCollection);
+		
+		if( ! backingCollection.isEmpty()) {
+			
+			T element = backingCollection.iterator().next();
+			
+			if( ! FxSerialsProxy.class.isAssignableFrom(element.getClass()) ) {
+				// convert the elements of the collection into JavaFX Beans
+				backingCollection = serialsUtil.getProxy(backingCollection);
+			}
+			else {
+				ReadOnlyJavaBeanProperty property = ((FxSerialsProxy) element).getProperty("description");
+				System.out.println("Property= " + property);
+			}
+			
+			observableArrayList.addAll(backingCollection);
+			
+		}
 	}
 	
 	public ObservableList<T> getModelSource() {
@@ -51,8 +67,7 @@ public class TableControllerModel<T> {
 
 		@Override
 		public void changed(ObservableValue<? extends Collection<T>> observable, Collection<T> oldValue, Collection<T> newValue) {
-			Collection<T> proxy = serialsUtil.getProxy(newValue);
-			setModelSource(proxy);
+			setModelSource(newValue);
 		}
 		
 	}

@@ -30,5 +30,8 @@ public class Contact implements FxSerials {
 		this.value = value;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Contact: " + description + "= " + value;
+	}
 }

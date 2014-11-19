@@ -23,6 +23,7 @@ import org.juffrou.fx.serials.FxSerialsUtil;
  */
 public class BeanControllerModel<T> {
 
+	private final FxSerialsUtil serialsUtil;
 	private final JuffrouBeanWrapper modelSourceBeanWrapper;
 	private final T fxSerialsProxy;
 	private final BeanWrapperContext beanWrapperContext;
@@ -33,7 +34,7 @@ public class BeanControllerModel<T> {
 		
 		modelSourceBeanWrapper = new JuffrouBeanWrapper(beanWrapperContext);
 		
-		FxSerialsUtil serialsUtil = new FxSerialsUtil();
+		serialsUtil = new FxSerialsUtil();
 		fxSerialsProxy = serialsUtil.getProxy(backingDomainClass);
 		
 		boundProperties = new HashMap<String, ReadOnlyJavaBeanProperty<?>>();
@@ -67,6 +68,12 @@ public class BeanControllerModel<T> {
 		Class<?> beanClass = beanWrapperContext.getBeanClass();
 		if( ! beanClass.isAssignableFrom(backingDomain.getClass()) )
 			throw new IllegalArgumentException("backing domain is not of type " + beanClass.getSimpleName());
+
+		if( ! FxSerialsProxy.class.isAssignableFrom(backingDomain.getClass()) ) {
+			// convert the elements of the collection into JavaFX Beans
+			backingDomain = serialsUtil.getProxy(backingDomain);
+		}
+
 		
 		modelSourceBeanWrapper.setBean(backingDomain);
 		for (String propertyName : boundProperties.keySet()) {
