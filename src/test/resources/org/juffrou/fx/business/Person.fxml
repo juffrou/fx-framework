@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juffrou.fx.business.ctrl.PersonController">
+<AnchorPane prefHeight="181.0" prefWidth="581.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juffrou.fx.business.ctrl.PersonController">
    <children>
-      <VBox prefHeight="401.0" prefWidth="581.0">
+      <VBox prefHeight="185.0" prefWidth="581.0">
          <children>
             <Label text="Name" />
             <TextField fx:id="name">

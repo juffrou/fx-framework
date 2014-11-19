@@ -2,10 +2,14 @@ package org.juffrou.fx.business.pm;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collection;
 
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.layout.VBox;
 
+import org.juffrou.fx.business.ctrl.ContactTableController;
 import org.juffrou.fx.business.ctrl.PersonController;
 import org.juffrou.fx.business.dom.Contact;
 import org.juffrou.fx.business.dom.Person;
@@ -16,6 +20,7 @@ import org.juffrou.fx.error.NodeBuildingException;
 public class PersonPM implements LifecyclePresentationManager {
 	
 	private BeanController<Person> personController;
+	private ContactTableController contactController;
 	
 	public PersonPM() {
 	}
@@ -24,14 +29,24 @@ public class PersonPM implements LifecyclePresentationManager {
 		
 		try {
 			
+			VBox vbox = new VBox();
+			
 			//Load person 
 			FXMLLoader loader = PersonController.getLoader();
 			loader.load();
 			Parent parent = loader.getRoot();
 			personController = loader.getController();
-			personController.bind();
 			
-			return parent;
+			vbox.getChildren().add(parent);
+			
+			loader = ContactTableController.getLoader();
+			parent = loader.load();
+			contactController = loader.getController();
+			contactController.getControllerModel().bindModel((ReadOnlyProperty<? extends Collection<Contact>>) personController.getControllerModel().getCollectionProperty("contacts"));
+
+			vbox.getChildren().add(parent);
+
+			return vbox;
 		} catch (IOException e) {
 			throw new NodeBuildingException("Cannot load Person.fxml", e);
 		}
@@ -43,6 +58,7 @@ public class PersonPM implements LifecyclePresentationManager {
 		System.out.println("name: " + person.getName());
 		System.out.println("email: " + person.getEmail());
 		System.out.println("date of birth: " + person.getDateOfBirth());
+		System.out.println("Contacts: " + person.getContacts());
 	}
 	
 	public void cancel() {

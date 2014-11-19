@@ -1,5 +1,10 @@
 package org.juffrou.fx.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.fxml.Initializable;
+
 import org.juffrou.fx.controller.model.TableControllerModel;
 
 /**
@@ -10,7 +15,7 @@ import org.juffrou.fx.controller.model.TableControllerModel;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class TableController<T> {
+public abstract class TableController<T> implements Initializable {
 
 	TableControllerModel<T> controllerModel;
 	
@@ -18,17 +23,21 @@ public abstract class TableController<T> {
 		controllerModel = new TableControllerModel<>();
 	}
 
-	protected void unbind() {
+	private void unbind() {
 	}
 	
-	public void bind(TableControllerModel<T> controllerModel) {
-		this.controllerModel = controllerModel;
+	private void bind() {
 		bindControllerModel(controllerModel);
 	}
 
 	protected abstract void bindControllerModel(TableControllerModel<T> presentationModel);
 
-	protected TableControllerModel<T> getControllerModel() {
+	public TableControllerModel<T> getControllerModel() {
 		return controllerModel;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		bind();
 	}
 }

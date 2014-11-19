@@ -1,5 +1,10 @@
 package org.juffrou.fx.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.fxml.Initializable;
+
 import org.juffrou.fx.controller.model.BeanControllerModel;
 
 /**
@@ -10,7 +15,7 @@ import org.juffrou.fx.controller.model.BeanControllerModel;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class BeanController<T> {
+public abstract class BeanController<T> implements Initializable {
 
 	private final BeanControllerModel<T> controllerModel;
 	
@@ -18,10 +23,10 @@ public abstract class BeanController<T> {
 		controllerModel = new BeanControllerModel<>(beanClass);
 	}
 
-	protected void unbind() {
+	private void unbind() {
 	}
 	
-	public void bind() {
+	private void bind() {
 		bindControllerModel(controllerModel);
 	}
 
@@ -29,6 +34,11 @@ public abstract class BeanController<T> {
 
 	public BeanControllerModel<T> getControllerModel() {
 		return controllerModel;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		bind();
 	}
 	
 }

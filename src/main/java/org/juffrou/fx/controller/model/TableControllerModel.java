@@ -20,7 +20,7 @@ public class TableControllerModel<T> {
 	
 
 	private final ObservableList<T> observableArrayList;
-	private FxSerialsUtil serialsUtil = new FxSerialsUtil();
+	private final FxSerialsUtil serialsUtil;
 	
 	public TableControllerModel() {
 		
@@ -51,7 +51,8 @@ public class TableControllerModel<T> {
 
 		@Override
 		public void changed(ObservableValue<? extends Collection<T>> observable, Collection<T> oldValue, Collection<T> newValue) {
-			setModelSource(newValue);
+			Collection<T> proxy = serialsUtil.getProxy(newValue);
+			setModelSource(proxy);
 		}
 		
 	}

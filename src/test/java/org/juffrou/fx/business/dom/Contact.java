@@ -1,7 +1,11 @@
 package org.juffrou.fx.business.dom;
 
-public class Contact {
+import org.juffrou.fx.serials.FxSerials;
 
+public class Contact implements FxSerials {
+
+	private static final long serialVersionUID = -1927971714182915038L;
+	
 	private Person person;
 	private String description;
 	private String value;

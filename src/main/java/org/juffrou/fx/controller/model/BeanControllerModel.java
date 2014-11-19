@@ -1,9 +1,11 @@
 package org.juffrou.fx.controller.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.adapter.JavaBeanProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
 import javafx.beans.value.ObservableValue;
@@ -39,6 +41,13 @@ public class BeanControllerModel<T> {
 	
 	private ReadOnlyJavaBeanProperty<?> getProperty(String propertyName) {
 		return ((FxSerialsProxy)fxSerialsProxy).getProperty(propertyName);
+	}
+	
+	//TODO maybe the model classes should implement ObservableValue / Property
+	public ReadOnlyProperty<Collection<?>> getCollectionProperty(String propertyName) {
+		ReadOnlyJavaBeanProperty<Collection<?>> beanProperty = (ReadOnlyJavaBeanProperty<Collection<?>>) getProperty(propertyName);
+		boundProperties.put(propertyName, beanProperty);
+		return beanProperty;
 	}
 	
 	public <PT> void bindReadonly(Property<PT> property, String propertyName) {

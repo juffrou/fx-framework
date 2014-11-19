@@ -17,7 +17,7 @@ public class ContactTableController extends TableController<Contact> {
 	
 	
 	public static FXMLLoader getLoader() {
-		URL url = ContactTableController.class.getResource("/org/juffrou/fx/business/Contact.fxml");
+		URL url = ContactTableController.class.getResource("/org/juffrou/fx/business/ContactTable.fxml");
 		FXMLLoader loader = new FXMLLoader(url);
 		return loader;
 	}
