@@ -23,9 +23,6 @@ public abstract class BeanController<T> implements Initializable {
 		controllerModel = new BeanControllerModel<>(beanClass);
 	}
 
-	private void unbind() {
-	}
-	
 	private void bind() {
 		bindControllerModel(controllerModel);
 	}

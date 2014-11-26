@@ -23,9 +23,6 @@ public abstract class TableController<T> implements Initializable {
 		controllerModel = new TableControllerModel<>();
 	}
 
-	private void unbind() {
-	}
-	
 	private void bind() {
 		bindControllerModel(controllerModel);
 	}

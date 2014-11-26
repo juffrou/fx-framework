@@ -5,11 +5,13 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableCell;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
+import javafx.stage.Stage;
 
 import org.juffrou.fx.business.dom.Contact;
 import org.juffrou.fx.controller.TableController;
@@ -47,5 +49,33 @@ public class ContactTableController extends TableController<Contact> {
 
 		// add editable cell factory for the value column
 		valueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-	}
+		
+		// add double click editing
+		table.setRowFactory( tv -> {
+		    TableRow<Contact> row = new TableRow<>();
+		    row.setOnMouseClicked(event -> {
+		        if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+					try {
+						Contact rowData = row.getItem();
+						
+						FXMLLoader loader = ContactController.getLoader();
+						loader.load();
+						Parent parent = loader.getRoot();
+						ContactController controller = loader.getController();
+						controller.getControllerModel().setModelSource(rowData);
+						
+						Stage stage = new Stage();
+						Scene scene = new Scene( parent );
+						stage.setScene(scene);
+						
+						stage.show();
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        }
+		    });
+		    return row ;
+		});	}
 }
