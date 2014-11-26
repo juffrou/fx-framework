@@ -23,17 +23,20 @@ public class TableControllerModel<T> {
 
 	private final ObservableList<T> observableArrayList;
 	private final FxSerialsUtil serialsUtil;
+	private final SourceCollectionChangeListener sourceCollectionChangeListener;
 	
 	public TableControllerModel() {
 		
 		observableArrayList = FXCollections.observableArrayList();
 		
 		serialsUtil = new FxSerialsUtil();
+		
+		sourceCollectionChangeListener = new SourceCollectionChangeListener();
 	}
 	
 
 	public void bindModel(ReadOnlyProperty<? extends Collection<T>> sourceProperty) {
-		sourceProperty.addListener(new SourceCollectionChangeListener());
+		sourceProperty.addListener(sourceCollectionChangeListener);
 	}
 
 	public void setModelSource(Collection<T> backingCollection) {

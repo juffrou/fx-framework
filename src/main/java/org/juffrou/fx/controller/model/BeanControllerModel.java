@@ -51,13 +51,26 @@ public class BeanControllerModel<T> {
 		return beanProperty;
 	}
 	
-	public <PT> void bindReadonly(Property<PT> property, String propertyName) {
+	/**
+	 * Create a unidirection binding for the property passed.
+	 * @param property Property to be bound
+	 * @param propertyName The name of the observable bean property to which the property passed should be bound to
+	 */
+	public <PT> void readonlyBind(Property<PT> property, String propertyName) {
 		ReadOnlyJavaBeanProperty<?> beanProperty = getProperty(propertyName);
 		property.bind((ObservableValue<? extends PT>) beanProperty);
 		boundProperties.put(propertyName, beanProperty);
 	}
 
-	public <PT> void bindReadWrite(Property<PT> property, String propertyName) {
+	/**
+	 * Create a bidirectional binding between this Property and another one. 
+	 * Bidirectional bindings exists independently of unidirectional bindings. 
+	 * So it is possible to add unidirectional binding to a property with bidirectional binding and vice-versa. However, this practice is discouraged.
+	 * It is possible to have multiple bidirectional bindings of one Property.
+	 * @param property
+	 * @param propertyName
+	 */
+	public <PT> void readWriteBind(Property<PT> property, String propertyName) {
 		ReadOnlyJavaBeanProperty<?> beanProperty = getProperty(propertyName);
 		property.bindBidirectional((Property<PT>) beanProperty);
 		boundProperties.put(propertyName, beanProperty);

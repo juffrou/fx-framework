@@ -36,9 +36,9 @@ public class PersonController extends BeanController<Person> {
 
 	public void bindControllerModel(BeanControllerModel<Person> presentationModel) {
 
-		presentationModel.bindReadWrite(name.textProperty(), "name");
-		presentationModel.bindReadonly(email.textProperty(), "email");
-		presentationModel.bindReadWrite(dateOfBirth.valueProperty(), "dateOfBirth");
+		presentationModel.readWriteBind(name.textProperty(), "name");
+		presentationModel.readonlyBind(email.textProperty(), "email");
+		presentationModel.readWriteBind(dateOfBirth.valueProperty(), "dateOfBirth");
 	}
 	
 }
