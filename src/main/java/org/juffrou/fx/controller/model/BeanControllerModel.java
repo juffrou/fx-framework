@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.adapter.JavaBeanProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import net.sf.juffrou.reflect.BeanWrapperContext;
 import net.sf.juffrou.reflect.JuffrouBeanWrapper;
@@ -21,7 +21,7 @@ import org.juffrou.fx.serials.FxSerialsUtil;
  * @author Carlos Martins
  * @param <T> java bean type supporting this controller 
  */
-public class BeanControllerModel<T> {
+public class BeanControllerModel<T> implements ChangeListener<T> {
 
 	private final FxSerialsUtil serialsUtil;
 	private final JuffrouBeanWrapper modelSourceBeanWrapper;
@@ -44,11 +44,28 @@ public class BeanControllerModel<T> {
 		return ((FxSerialsProxy)fxSerialsProxy).getProperty(propertyName);
 	}
 	
-	//TODO maybe the model classes should implement ObservableValue / Property
-	public ReadOnlyProperty<Collection<?>> getCollectionProperty(String propertyName) {
-		ReadOnlyJavaBeanProperty<Collection<?>> beanProperty = (ReadOnlyJavaBeanProperty<Collection<?>>) getProperty(propertyName);
+	/**
+	 * Bind a controller model to a property of the traditional java bean in this Bean Controller Model.<br>
+	 * The controller model will listen to changes on the property.
+	 * @param controllerModel A Table Controller Model
+	 * @param propertyName Name of a property in this traditional java bean corresponding to a field of type collection
+	 */
+	public <PT> void controllerModelBind(TableControllerModel<PT> controllerModel, String propertyName) {
+		ReadOnlyJavaBeanProperty<Collection<PT>> beanProperty = (ReadOnlyJavaBeanProperty<Collection<PT>>) getProperty(propertyName);
+		beanProperty.addListener(controllerModel);
 		boundProperties.put(propertyName, beanProperty);
-		return beanProperty;
+	}
+	
+	/**
+	 * Bind a controller model to a property of the traditional java bean in this Bean Controller Model.<br>
+	 * The controller model will listen to changes on the property.
+	 * @param controllerModel A bean Controller Model
+	 * @param propertyName Name of a property in this traditional java bean corresponding to a field implementing FxSerials
+	 */
+	public <PT> void controllerModelBind(BeanControllerModel<PT> controllerModel, String propertyName) {
+		ReadOnlyJavaBeanProperty<PT> beanProperty = (ReadOnlyJavaBeanProperty<PT>) getProperty(propertyName);
+		beanProperty.addListener(controllerModel);
+		boundProperties.put(propertyName, beanProperty);
 	}
 	
 	/**
@@ -117,6 +134,11 @@ public class BeanControllerModel<T> {
 	
 	public Class<T> getModelSourceClass() {
 		return (Class<T>) beanWrapperContext.getBeanClass();
+	}
+
+	@Override
+	public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
+		setModelSource(newValue);
 	}
 	
 }

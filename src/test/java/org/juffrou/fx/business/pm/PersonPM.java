@@ -2,9 +2,7 @@ package org.juffrou.fx.business.pm;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Collection;
 
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
@@ -42,7 +40,7 @@ public class PersonPM implements LifecyclePresentationManager {
 			loader = ContactTableController.getLoader();
 			parent = loader.load();
 			contactController = loader.getController();
-			contactController.getControllerModel().bindModel((ReadOnlyProperty<? extends Collection<Contact>>) personController.getControllerModel().getCollectionProperty("contacts"));
+			personController.getControllerModel().controllerModelBind(contactController.getControllerModel(), "contacts");
 
 			vbox.getChildren().add(parent);
 
@@ -53,7 +51,7 @@ public class PersonPM implements LifecyclePresentationManager {
 	}
 	
 	public void save() {
-		System.out.println("save");
+		System.out.println("saving person");
 		Person person = personController.getControllerModel().getModelSource();
 		System.out.println("name: " + person.getName());
 		System.out.println("email: " + person.getEmail());
@@ -62,7 +60,7 @@ public class PersonPM implements LifecyclePresentationManager {
 	}
 	
 	public void cancel() {
-		System.out.println("cancel");
+		System.out.println("loading person");
 		
 		Person person = new Person();
 		person.setName("Carlos");
