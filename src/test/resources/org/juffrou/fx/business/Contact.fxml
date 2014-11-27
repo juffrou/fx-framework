@@ -11,13 +11,13 @@
    <children>
       <VBox prefHeight="185.0" prefWidth="581.0">
          <children>
-            <Label text="Description" />
+            <Label text="%description" />
             <TextField fx:id="description">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Contact" />
+            <Label text="%value" />
             <TextField fx:id="value">
                <VBox.margin>
                   <Insets bottom="10.0" />

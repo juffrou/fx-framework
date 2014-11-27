@@ -11,19 +11,19 @@
    <children>
       <VBox prefHeight="185.0" prefWidth="581.0">
          <children>
-            <Label text="Name" />
+            <Label text="%name" />
             <TextField fx:id="name">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Email" />
+            <Label text="%email" />
             <TextField fx:id="email">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Birthday" />
+            <Label text="%dateOfBirth" />
             <DatePicker fx:id="dateOfBirth" />
          </children>
          <padding>

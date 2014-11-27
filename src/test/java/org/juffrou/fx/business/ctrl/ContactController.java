@@ -1,9 +1,6 @@
 package org.juffrou.fx.business.ctrl;
 
-import java.net.URL;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 
 import org.juffrou.fx.business.dom.Contact;
@@ -12,6 +9,9 @@ import org.juffrou.fx.controller.model.BeanControllerModel;
 
 public class ContactController extends BeanController<Contact> {
 	
+	public static String FXML_PATH = "/org/juffrou/fx/business/Contact";
+
+	
 	@FXML
 	private TextField description;
 	
@@ -19,13 +19,6 @@ public class ContactController extends BeanController<Contact> {
 	private TextField value;
 	
 	
-	public static FXMLLoader getLoader() {
-		URL url = ContactController.class.getResource("/org/juffrou/fx/business/Contact.fxml");
-		FXMLLoader loader = new FXMLLoader(url);
-		return loader;
-	}
-	
-
 	public ContactController() {
 		super(Contact.class);
 	}

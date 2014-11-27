@@ -19,20 +19,15 @@ import org.juffrou.fx.controller.model.TableControllerModel;
 
 public class ContactTableController extends TableController<Contact> {
 	
+	public static String FXML_PATH = "/org/juffrou/fx/business/ContactTable";
+
+	
 	@FXML
 	private TableView<Contact> table;
 	
 	@FXML
 	private TableColumn<Contact,String> valueColumn;
 	
-	
-	public static FXMLLoader getLoader() {
-		URL url = ContactTableController.class.getResource("/org/juffrou/fx/business/ContactTable.fxml");
-		FXMLLoader loader = new FXMLLoader(url);
-		return loader;
-	}
-	
-
 	public ContactTableController() {
 		super(Contact.class);
 	}
@@ -58,7 +53,7 @@ public class ContactTableController extends TableController<Contact> {
 					try {
 						Contact rowData = row.getItem();
 						
-						FXMLLoader loader = ContactController.getLoader();
+						FXMLLoader loader = ContactController.getLoader(ContactController.FXML_PATH);
 						loader.load();
 						Parent parent = loader.getRoot();
 						ContactController controller = loader.getController();

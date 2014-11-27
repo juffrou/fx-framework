@@ -30,14 +30,14 @@ public class PersonPM implements LifecyclePresentationManager {
 			VBox vbox = new VBox();
 			
 			//Load person 
-			FXMLLoader loader = PersonController.getLoader();
+			FXMLLoader loader = PersonController.getLoader(PersonController.FXML_PATH);
 			loader.load();
 			Parent parent = loader.getRoot();
 			personController = loader.getController();
 			
 			vbox.getChildren().add(parent);
 			
-			loader = ContactTableController.getLoader();
+			loader = ContactTableController.getLoader(ContactTableController.FXML_PATH);
 			parent = loader.load();
 			contactController = loader.getController();
 			personController.getControllerModel().controllerModelBind(contactController.getControllerModel(), "contacts");

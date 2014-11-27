@@ -10,12 +10,12 @@
    <children>
       <TableView fx:id="table" editable="true" layoutX="31.0" layoutY="18.0" prefHeight="481.0" prefWidth="564.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn editable="false" prefWidth="252.0" text="Description">
+          <TableColumn editable="false" prefWidth="252.0" text="%description">
 	          <cellValueFactory>
 	            <PropertyValueFactory property="description" />
 	          </cellValueFactory>
           </TableColumn>
-          <TableColumn fx:id="valueColumn" editable="true" minWidth="0.0" prefWidth="253.0" text="Contact">
+          <TableColumn fx:id="valueColumn" editable="true" minWidth="0.0" prefWidth="253.0" text="%value">
 	          <cellValueFactory>
 	            <PropertyValueFactory property="value" />
 	          </cellValueFactory>

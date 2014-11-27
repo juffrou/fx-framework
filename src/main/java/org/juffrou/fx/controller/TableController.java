@@ -15,7 +15,7 @@ import org.juffrou.fx.controller.model.TableControllerModel;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class TableController<T> implements Initializable {
+public abstract class TableController<T> extends AbstractController implements Initializable {
 
 	TableControllerModel<T> controllerModel;
 	

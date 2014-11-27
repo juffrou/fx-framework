@@ -15,7 +15,7 @@ import org.juffrou.fx.controller.model.BeanControllerModel;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class BeanController<T> implements Initializable {
+public abstract class BeanController<T> extends AbstractController implements Initializable {
 
 	private final BeanControllerModel<T> controllerModel;
 	
@@ -27,7 +27,11 @@ public abstract class BeanController<T> implements Initializable {
 		bindControllerModel(controllerModel);
 	}
 
-	protected abstract void bindControllerModel(BeanControllerModel<T> presentationModel);
+	/**
+	 * Bind the scene controls to the bean properties
+	 * @param controllerModel Controller Model holding the properties to bin to.
+	 */
+	protected abstract void bindControllerModel(BeanControllerModel<T> controllerModel);
 
 	public BeanControllerModel<T> getControllerModel() {
 		return controllerModel;
