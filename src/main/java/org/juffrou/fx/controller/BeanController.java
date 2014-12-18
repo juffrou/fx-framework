@@ -15,7 +15,7 @@ import org.juffrou.fx.controller.model.BeanControllerModel;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class BeanController<T> extends AbstractController implements Initializable {
+public abstract class BeanController<T> implements Initializable {
 
 	private final BeanControllerModel<T> controllerModel;
 	

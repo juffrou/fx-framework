@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
 
-public abstract class AbstractController {
+public abstract class ControllerFactory {
 
 	
 	/**
@@ -22,7 +22,7 @@ public abstract class AbstractController {
 		if(fxmlPath == null || fxmlPath.isEmpty())
 			throw new NullPointerException("The parameter fxmlPath cannot be null or empty.");
 		
-		URL url = AbstractController.class.getResource(fxmlPath + ".fxml");
+		URL url = ControllerFactory.class.getResource(fxmlPath + ".fxml");
 		FXMLLoader loader = new FXMLLoader(url);
 		Locale locale = Locale.getDefault();
 		if(fxmlPath.startsWith("/"))

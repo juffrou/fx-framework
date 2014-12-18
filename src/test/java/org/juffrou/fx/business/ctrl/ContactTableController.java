@@ -14,6 +14,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import org.juffrou.fx.business.dom.Contact;
+import org.juffrou.fx.controller.ControllerFactory;
 import org.juffrou.fx.controller.TableController;
 import org.juffrou.fx.controller.model.TableControllerModel;
 
@@ -53,7 +54,7 @@ public class ContactTableController extends TableController<Contact> {
 					try {
 						Contact rowData = row.getItem();
 						
-						FXMLLoader loader = ContactController.getLoader(ContactController.FXML_PATH);
+						FXMLLoader loader = ControllerFactory.getLoader(ContactController.FXML_PATH);
 						loader.load();
 						Parent parent = loader.getRoot();
 						ContactController controller = loader.getController();

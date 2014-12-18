@@ -12,6 +12,7 @@ import org.juffrou.fx.business.ctrl.PersonController;
 import org.juffrou.fx.business.dom.Contact;
 import org.juffrou.fx.business.dom.Person;
 import org.juffrou.fx.controller.BeanController;
+import org.juffrou.fx.controller.ControllerFactory;
 import org.juffrou.fx.core.LifecyclePresentationManager;
 import org.juffrou.fx.error.NodeBuildingException;
 
@@ -30,14 +31,14 @@ public class PersonPM implements LifecyclePresentationManager {
 			VBox vbox = new VBox();
 			
 			//Load person 
-			FXMLLoader loader = PersonController.getLoader(PersonController.FXML_PATH);
+			FXMLLoader loader = ControllerFactory.getLoader(PersonController.FXML_PATH);
 			loader.load();
 			Parent parent = loader.getRoot();
 			personController = loader.getController();
 			
 			vbox.getChildren().add(parent);
 			
-			loader = ContactTableController.getLoader(ContactTableController.FXML_PATH);
+			loader = ControllerFactory.getLoader(ContactTableController.FXML_PATH);
 			parent = loader.load();
 			contactController = loader.getController();
 			personController.getControllerModel().controllerModelBind(contactController.getControllerModel(), "contacts");
