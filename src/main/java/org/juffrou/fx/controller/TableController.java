@@ -27,8 +27,16 @@ public abstract class TableController<T> implements Initializable {
 		bindControllerModel(controllerModel);
 	}
 
+	/**
+	 * Called once during controller initialization to bind the scene controls to the data model.
+	 * @param presentationModel The data model to bind to.
+	 */
 	protected abstract void bindControllerModel(TableControllerModel<T> presentationModel);
 
+	/**
+	 * Returns the data model of this controller
+	 * @return The data model of this controller.
+	 */
 	public TableControllerModel<T> getControllerModel() {
 		return controllerModel;
 	}

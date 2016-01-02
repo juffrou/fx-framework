@@ -4,16 +4,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.juffrou.fx.serials.FxSerialsContext;
+import org.juffrou.fx.serials.JFXProxy;
+
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.adapter.JavaBeanProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import net.sf.juffrou.reflect.BeanWrapperContext;
 import net.sf.juffrou.reflect.JuffrouBeanWrapper;
-
-import org.juffrou.fx.serials.FxSerialsProxy;
-import org.juffrou.fx.serials.FxSerialsUtil;
 
 /**
  * Wraps a traditional java bean and creates JavaFX properties allowing a JavaFX controller to bind its controls with the properties of the bean.
@@ -23,25 +24,25 @@ import org.juffrou.fx.serials.FxSerialsUtil;
  */
 public class BeanControllerModel<T> implements ChangeListener<T> {
 
-	private final FxSerialsUtil serialsUtil;
+	private final FxSerialsContext serialsUtil;
 	private final JuffrouBeanWrapper modelSourceBeanWrapper;
 	private final T fxSerialsProxy;
 	private final BeanWrapperContext beanWrapperContext;
-	private final Map<String, ReadOnlyJavaBeanProperty<?>> boundProperties;
+	private final Map<String, ReadOnlyProperty<?>> boundProperties;
 	
 	public BeanControllerModel(Class<T> backingDomainClass) {
 		beanWrapperContext = BeanWrapperContext.create(backingDomainClass);
 		
 		modelSourceBeanWrapper = new JuffrouBeanWrapper(beanWrapperContext);
 		
-		serialsUtil = new FxSerialsUtil();
+		serialsUtil = new FxSerialsContext();
 		fxSerialsProxy = serialsUtil.getProxy(backingDomainClass);
 		
-		boundProperties = new HashMap<String, ReadOnlyJavaBeanProperty<?>>();
+		boundProperties = new HashMap<String, ReadOnlyProperty<?>>();
 	}
 	
-	private ReadOnlyJavaBeanProperty<?> getProperty(String propertyName) {
-		return ((FxSerialsProxy)fxSerialsProxy).getProperty(propertyName);
+	private ReadOnlyProperty<?> getProperty(String propertyName) {
+		return ((JFXProxy)fxSerialsProxy).getProperty(propertyName);
 	}
 	
 	/**
@@ -50,11 +51,13 @@ public class BeanControllerModel<T> implements ChangeListener<T> {
 	 * @param controllerModel A Table Controller Model
 	 * @param propertyName Name of a property in this traditional java bean corresponding to a field of type collection
 	 */
+	/*
 	public <PT> void controllerModelBind(TableControllerModel<PT> controllerModel, String propertyName) {
-		ReadOnlyJavaBeanProperty<Collection<PT>> beanProperty = (ReadOnlyJavaBeanProperty<Collection<PT>>) getProperty(propertyName);
+		ReadOnlyProperty<Collection<PT>> beanProperty = (ReadOnlyProperty<Collection<PT>>) getProperty(propertyName);
 		beanProperty.addListener(controllerModel);
 		boundProperties.put(propertyName, beanProperty);
 	}
+	*/
 	
 	/**
 	 * Bind a controller model to a property of the traditional java bean in this Bean Controller Model.<br>
@@ -63,7 +66,7 @@ public class BeanControllerModel<T> implements ChangeListener<T> {
 	 * @param propertyName Name of a property in this traditional java bean corresponding to a field implementing FxSerials
 	 */
 	public <PT> void controllerModelBind(BeanControllerModel<PT> controllerModel, String propertyName) {
-		ReadOnlyJavaBeanProperty<PT> beanProperty = (ReadOnlyJavaBeanProperty<PT>) getProperty(propertyName);
+		ReadOnlyProperty<PT> beanProperty = (ReadOnlyProperty<PT>) getProperty(propertyName);
 		beanProperty.addListener(controllerModel);
 		boundProperties.put(propertyName, beanProperty);
 	}
@@ -74,7 +77,7 @@ public class BeanControllerModel<T> implements ChangeListener<T> {
 	 * @param propertyName The name of the observable bean property to which the property passed should be bound to
 	 */
 	public <PT> void readonlyBind(Property<PT> property, String propertyName) {
-		ReadOnlyJavaBeanProperty<?> beanProperty = getProperty(propertyName);
+		ReadOnlyProperty<?> beanProperty = getProperty(propertyName);
 		property.bind((ObservableValue<? extends PT>) beanProperty);
 		boundProperties.put(propertyName, beanProperty);
 	}
@@ -88,7 +91,7 @@ public class BeanControllerModel<T> implements ChangeListener<T> {
 	 * @param propertyName
 	 */
 	public <PT> void readWriteBind(Property<PT> property, String propertyName) {
-		ReadOnlyJavaBeanProperty<?> beanProperty = getProperty(propertyName);
+		ReadOnlyProperty<?> beanProperty = getProperty(propertyName);
 		property.bindBidirectional((Property<PT>) beanProperty);
 		boundProperties.put(propertyName, beanProperty);
 	}
@@ -99,7 +102,7 @@ public class BeanControllerModel<T> implements ChangeListener<T> {
 		if( ! beanClass.isAssignableFrom(backingDomain.getClass()) )
 			throw new IllegalArgumentException("backing domain is not of type " + beanClass.getSimpleName());
 
-		if( ! FxSerialsProxy.class.isAssignableFrom(backingDomain.getClass()) ) {
+		if( ! JFXProxy.class.isAssignableFrom(backingDomain.getClass()) ) {
 			// convert the elements of the collection into JavaFX Beans
 			backingDomain = serialsUtil.getProxy(backingDomain);
 		}
@@ -119,7 +122,7 @@ public class BeanControllerModel<T> implements ChangeListener<T> {
 					if(Map.class.isAssignableFrom(propertyClass) && ! Observable.class.isAssignableFrom(propertyClass))
 						value = FXCollections.observableMap((Map<?, ?>) value);
 			*/
-			ReadOnlyJavaBeanProperty<?> roProperty = boundProperties.get(propertyName);
+			ReadOnlyProperty<?> roProperty = boundProperties.get(propertyName);
 			if(JavaBeanProperty.class.isAssignableFrom(roProperty.getClass()))
 				((JavaBeanProperty)roProperty).setValue(value);
 		}
