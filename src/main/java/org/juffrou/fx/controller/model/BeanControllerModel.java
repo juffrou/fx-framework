@@ -32,6 +32,8 @@ public class BeanControllerModel<T> implements JFXModel<T> {
 	}
 	
 	public void setModelSource(T fxProxy) {
+		if( !JFXProxy.class.isAssignableFrom(fxProxy.getClass()) )
+			throw new IllegalArgumentException("Parameter must be a JFXProxy. Please use fxSerialsContext.getProxy(...) before.");
 		this.fxProxyHolder.set(fxProxy);
 	}
 	
@@ -45,34 +47,6 @@ public class BeanControllerModel<T> implements JFXModel<T> {
 			return null;
 		return fxProxy.getProperty(propertyName);
 	}
-	
-	/**
-	 * Bind a controller model to a property of the traditional java bean in this Bean Controller Model.<br>
-	 * The controller model will listen to changes on the property.
-	 * @param controllerModel A Table Controller Model
-	 * @param propertyName Name of a property in this traditional java bean corresponding to a field of type collection
-	 */
-	/*
-	public <PT> void controllerModelBind(TableControllerModel<PT> controllerModel, String propertyName) {
-		ReadOnlyProperty<Collection<PT>> beanProperty = (ReadOnlyProperty<Collection<PT>>) getProperty(propertyName);
-		beanProperty.addListener(controllerModel);
-		boundProperties.put(propertyName, beanProperty);
-	}
-	*/
-	
-	/**
-	 * Bind a controller model to a property of the traditional java bean in this Bean Controller Model.<br>
-	 * The controller model will listen to changes on the property.
-	 * @param controllerModel A bean Controller Model
-	 * @param propertyName Name of a property in this traditional java bean corresponding to a field implementing FxSerials
-	 */
-	/*
-	public <PT> void controllerModelBind(BeanControllerModel<PT> controllerModel, String propertyName) {
-		ReadOnlyProperty<PT> beanProperty = (ReadOnlyProperty<PT>) getProperty(propertyName);
-		beanProperty.addListener(controllerModel);
-		boundProperties.put(propertyName, beanProperty);
-	}
-	*/
 	
 	/**
 	 * Create a unidirection binding for the property passed.
@@ -97,6 +71,11 @@ public class BeanControllerModel<T> implements JFXModel<T> {
 		property.bindBidirectional((Property<PT>) beanProperty);
 	}
 	
+	/**
+	 * Creates a bidirectional binding between this property and the property supporting a JFXModel
+	 * @param model
+	 * @param propertyName
+	 */
 	public <PT> void bindBidirectional(JFXModel<PT> model, String propertyName) {
 		ReadOnlyProperty<?> beanProperty = getBeanProperty(propertyName);
 		model.getModelSourceProperty().bindBidirectional((Property<PT>) beanProperty);
