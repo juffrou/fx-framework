@@ -25,8 +25,8 @@ public class ContactController extends BeanController<Contact> {
 
 	public void bindControllerModel(BeanControllerModel<Contact> presentationModel) {
 
-		presentationModel.readWriteBind(description.textProperty(), "description");
-		presentationModel.readWriteBind(value.textProperty(), "value");
+		presentationModel.bindBidirectional(description.textProperty(), "description");
+		presentationModel.bindBidirectional(value.textProperty(), "value");
 	}
 	
 }

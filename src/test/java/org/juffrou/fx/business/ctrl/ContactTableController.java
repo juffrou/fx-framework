@@ -3,6 +3,11 @@ package org.juffrou.fx.business.ctrl;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.juffrou.fx.business.dom.Contact;
+import org.juffrou.fx.controller.ControllerFactory;
+import org.juffrou.fx.controller.TableController;
+import org.juffrou.fx.controller.model.ListControllerModel;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,11 +17,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-
-import org.juffrou.fx.business.dom.Contact;
-import org.juffrou.fx.controller.ControllerFactory;
-import org.juffrou.fx.controller.TableController;
-import org.juffrou.fx.controller.model.TableControllerModel;
 
 public class ContactTableController extends TableController<Contact> {
 	
@@ -34,7 +34,7 @@ public class ContactTableController extends TableController<Contact> {
 	}
 
 	
-	public void bindControllerModel(TableControllerModel<Contact> presentationModel) {
+	public void bindControllerModel(ListControllerModel<Contact> presentationModel) {
 
 		table.setItems(getControllerModel().getModelSource());
 	}
@@ -58,7 +58,9 @@ public class ContactTableController extends TableController<Contact> {
 						loader.load();
 						Parent parent = loader.getRoot();
 						ContactController controller = loader.getController();
+						
 						controller.getControllerModel().setModelSource(rowData);
+						controller.bind();
 						
 						Stage stage = new Stage();
 						Scene scene = new Scene( parent );

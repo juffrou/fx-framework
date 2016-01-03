@@ -3,9 +3,10 @@ package org.juffrou.fx.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.fxml.Initializable;
-
 import org.juffrou.fx.controller.model.BeanControllerModel;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 /**
  * Controller that supports a node for presenting a Java Bean.<p>
@@ -15,15 +16,15 @@ import org.juffrou.fx.controller.model.BeanControllerModel;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class BeanController<T> implements Initializable {
+public abstract class BeanController<T> implements JFXController, ChangeListener<T> {
 
 	private final BeanControllerModel<T> controllerModel;
 	
 	protected BeanController(Class<T> beanClass) {
-		controllerModel = new BeanControllerModel<>(beanClass);
+		controllerModel = new BeanControllerModel<>();
 	}
 
-	private void bind() {
+	public void bind() {
 		bindControllerModel(controllerModel);
 	}
 
@@ -39,6 +40,11 @@ public abstract class BeanController<T> implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+//		bind();
+	}
+	
+	@Override
+	public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
 		bind();
 	}
 	

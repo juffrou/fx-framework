@@ -1,8 +1,8 @@
 package org.juffrou.fx.business.dom;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.juffrou.fx.serials.JFXSerializable;
 
@@ -14,7 +14,7 @@ public class Person implements JFXSerializable {
 	private String name;
 	private String email;
 	private LocalDate dateOfBirth;
-	private Set<Contact> contacts;
+	private List<Contact> contacts;
 	
 	
 	public Integer getId() {
@@ -41,16 +41,16 @@ public class Person implements JFXSerializable {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	public Set<Contact> getContacts() {
+	public List<Contact> getContacts() {
 		return contacts;
 	}
-	public void setContacts(Set<Contact> contacts) {
+	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
 	}
 
 	public void addContact(Contact contact) {
 		if(contacts == null)
-			contacts = new HashSet<>();
+			setContacts(new ArrayList<>());
 		contact.setPerson(this);
 		contacts.add(contact);
 	}

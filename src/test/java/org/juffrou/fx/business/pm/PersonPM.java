@@ -3,10 +3,6 @@ package org.juffrou.fx.business.pm;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.VBox;
-
 import org.juffrou.fx.business.ctrl.ContactTableController;
 import org.juffrou.fx.business.ctrl.PersonController;
 import org.juffrou.fx.business.dom.Contact;
@@ -15,9 +11,17 @@ import org.juffrou.fx.controller.BeanController;
 import org.juffrou.fx.controller.ControllerFactory;
 import org.juffrou.fx.core.LifecyclePresentationManager;
 import org.juffrou.fx.error.NodeBuildingException;
+import org.juffrou.fx.serials.FxSerialsContext;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.VBox;
 
 public class PersonPM implements LifecyclePresentationManager {
 	
+	private FxSerialsContext fxSerialsContext = new FxSerialsContext();
 	private BeanController<Person> personController;
 	private ContactTableController contactController;
 	
@@ -35,13 +39,13 @@ public class PersonPM implements LifecyclePresentationManager {
 			loader.load();
 			Parent parent = loader.getRoot();
 			personController = loader.getController();
+			personController.getControllerModel().addListener(new PersonBinder());
 			
 			vbox.getChildren().add(parent);
 			
 			loader = ControllerFactory.getLoader(ContactTableController.FXML_PATH);
 			parent = loader.load();
 			contactController = loader.getController();
-			personController.getControllerModel().controllerModelBind(contactController.getControllerModel(), "contacts");
 
 			vbox.getChildren().add(parent);
 
@@ -78,8 +82,21 @@ public class PersonPM implements LifecyclePresentationManager {
 		contact.setValue("916 173 239");
 		person.addContact(contact);
 		
-		personController.getControllerModel().setModelSource(person);
+		Person proxy = fxSerialsContext.getProxy(person);
+		
+		personController.getControllerModel().setModelSource(proxy);
 
+	}
+	
+	private class PersonBinder implements ChangeListener<Person> {
+
+		@Override
+		public void changed(ObservableValue<? extends Person> observable, Person oldValue, Person newValue) {
+			personController.bind();
+			personController.getControllerModel().bindBidirectional(contactController.getControllerModel(), "contacts");
+
+		}
+		
 	}
 
 }
