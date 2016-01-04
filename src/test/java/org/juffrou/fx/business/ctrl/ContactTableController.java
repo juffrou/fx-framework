@@ -60,7 +60,6 @@ public class ContactTableController extends TableController<Contact> {
 						ContactController controller = loader.getController();
 						
 						controller.getControllerModel().setModelSource(rowData);
-						controller.bind();
 						
 						Stage stage = new Stage();
 						Scene scene = new Scene( parent );

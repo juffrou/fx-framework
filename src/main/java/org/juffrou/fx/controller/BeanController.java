@@ -3,10 +3,10 @@ package org.juffrou.fx.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.juffrou.fx.controller.bind.Binder;
 import org.juffrou.fx.controller.model.BeanControllerModel;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import org.juffrou.fx.controller.model.JFXModel;
+import org.juffrou.fx.serials.JFXProxy;
 
 /**
  * Controller that supports a node for presenting a Java Bean.<p>
@@ -16,36 +16,33 @@ import javafx.beans.value.ObservableValue;
  *
  * @param <T> java bean type supporting this controller
  */
-public abstract class BeanController<T> implements JFXController, ChangeListener<T> {
+public abstract class BeanController<T> implements JFXController {
 
 	private final BeanControllerModel<T> controllerModel;
+	private final Binder binder;
+
 	
 	protected BeanController(Class<T> beanClass) {
-		controllerModel = new BeanControllerModel<>();
-	}
-
-	public void bind() {
-		bindControllerModel(controllerModel);
+		this.controllerModel = new BeanControllerModel<>();
+		this.binder = new Binder((JFXModel<? extends JFXProxy>) controllerModel);
 	}
 
 	/**
 	 * Bind the scene controls to the bean properties
-	 * @param controllerModel Controller Model holding the properties to bin to.
+	 * @param controllerModel Controller Model holding the properties to bind to.
 	 */
-	protected abstract void bindControllerModel(BeanControllerModel<T> controllerModel);
+	protected abstract void bindControllerModel(Binder binder);
 
 	public BeanControllerModel<T> getControllerModel() {
 		return controllerModel;
 	}
+	
+	public Binder getBinder() {
+		return binder;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		bind();
+		bindControllerModel(binder);
 	}
-	
-	@Override
-	public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
-		bind();
-	}
-	
 }

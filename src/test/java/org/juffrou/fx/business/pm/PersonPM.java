@@ -13,8 +13,6 @@ import org.juffrou.fx.core.LifecyclePresentationManager;
 import org.juffrou.fx.error.NodeBuildingException;
 import org.juffrou.fx.serials.FxSerialsContext;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
@@ -39,15 +37,16 @@ public class PersonPM implements LifecyclePresentationManager {
 			loader.load();
 			Parent parent = loader.getRoot();
 			personController = loader.getController();
-			personController.getControllerModel().addListener(new PersonBinder());
-			
 			vbox.getChildren().add(parent);
-			
+
+			// Load contacts
 			loader = ControllerFactory.getLoader(ContactTableController.FXML_PATH);
 			parent = loader.load();
 			contactController = loader.getController();
-
 			vbox.getChildren().add(parent);
+
+			//Bind the contacts controller supporting property to the "contacts" property of the person bean
+			personController.getBinder().addBidirectional(contactController.getControllerModel(), "contacts");
 
 			return vbox;
 		} catch (IOException e) {
@@ -86,17 +85,6 @@ public class PersonPM implements LifecyclePresentationManager {
 		
 		personController.getControllerModel().setModelSource(proxy);
 
-	}
-	
-	private class PersonBinder implements ChangeListener<Person> {
-
-		@Override
-		public void changed(ObservableValue<? extends Person> observable, Person oldValue, Person newValue) {
-			personController.bind();
-			personController.getControllerModel().bindBidirectional(contactController.getControllerModel(), "contacts");
-
-		}
-		
 	}
 
 }

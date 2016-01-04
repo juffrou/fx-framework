@@ -1,5 +1,9 @@
 package org.juffrou.fx.controller.model;
 
+import java.util.Deque;
+import java.util.Map;
+
+import org.juffrou.fx.controller.bind.Binder;
 import org.juffrou.fx.serials.JFXProxy;
 
 import javafx.beans.property.ObjectProperty;
@@ -10,7 +14,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 /**
- * Wraps a traditional java bean and creates JavaFX properties allowing a JavaFX controller to bind its controls with the properties of the bean.
+ * Model backed by an ObjectProperty holding a JFXProxy bean. This model allows a JavaFX controller to bind its controls with the properties of the bean.<br>
+ * Each property of the JFXProxy can itself be bound to a property that backs up another JFXModel.
  * 
  * @author Carlos Martins
  * @param <T> java bean type supporting this controller 
@@ -48,37 +53,4 @@ public class BeanControllerModel<T> implements JFXModel<T> {
 		return fxProxy.getProperty(propertyName);
 	}
 	
-	/**
-	 * Create a unidirection binding for the property passed.
-	 * @param property Property to be bound
-	 * @param propertyName The name of the observable bean property to which the property passed should be bound to
-	 */
-	public <PT> void bind(Property<PT> property, String propertyName) {
-		ReadOnlyProperty<?> beanProperty = getBeanProperty(propertyName);
-		property.bind((ObservableValue<? extends PT>) beanProperty);
-	}
-
-	/**
-	 * Create a bidirectional binding between this Property and another one. 
-	 * Bidirectional bindings exists independently of unidirectional bindings. 
-	 * So it is possible to add unidirectional binding to a property with bidirectional binding and vice-versa. However, this practice is discouraged.
-	 * It is possible to have multiple bidirectional bindings of one Property.
-	 * @param property
-	 * @param propertyName
-	 */
-	public <PT> void bindBidirectional(Property<PT> property, String propertyName) {
-		ReadOnlyProperty<?> beanProperty = getBeanProperty(propertyName);
-		property.bindBidirectional((Property<PT>) beanProperty);
-	}
-	
-	/**
-	 * Creates a bidirectional binding between this property and the property supporting a JFXModel
-	 * @param model
-	 * @param propertyName
-	 */
-	public <PT> void bindBidirectional(JFXModel<PT> model, String propertyName) {
-		ReadOnlyProperty<?> beanProperty = getBeanProperty(propertyName);
-		model.getModelSourceProperty().bindBidirectional((Property<PT>) beanProperty);
-	}
-
 }
