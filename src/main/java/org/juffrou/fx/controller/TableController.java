@@ -28,14 +28,10 @@ public abstract class TableController<T> implements JFXController {
 
 			@Override
 			public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
-				bind();
+				bindControllerModel(controllerModel);
 			}
 			
 		});
-	}
-
-	private void bind() {
-		bindControllerModel(controllerModel);
 	}
 
 	/**
@@ -54,6 +50,6 @@ public abstract class TableController<T> implements JFXController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		bind();
+		bindControllerModel(controllerModel);
 	}
 }

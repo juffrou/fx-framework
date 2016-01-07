@@ -68,7 +68,6 @@ public class ContactTableController extends TableController<Contact> {
 						stage.show();
 
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 		        }
