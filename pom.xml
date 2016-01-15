@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>io.github.juffrou</groupId>
 			<artifactId>fx-serials</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+			<version>1.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.juffrou</groupId>
